@@ -134,7 +134,7 @@ form {
         <li ><a style="border-radius:10px" href="#home">Logout</a></li>
       </ul>
     </nav>
-    <form form action="/userDetails" method="post">
+    <form form action="/userDetails" method="post" enctype="multipart/form-data">
       <h2 style="text-align: center;">Personal Information</h2>
       <div>
         <label for="address">Address:</label>
@@ -146,7 +146,7 @@ form {
             type="file"
             accept="image/*"
             id="aadhar_card"
-            name="aadhar_card"
+            name="images"
           />
         <div>
           <label for="aadhar_card">Aadhar Card:</label>
@@ -154,12 +154,12 @@ form {
             type="file"
             accept="image/*"
             id="aadhar_card"
-            name="aadhar_card"
+            name="images"
           />
         </div>
         <div>
           <label for="pan_card">PAN Card:</label>
-          <input type="file" accept="image/*" id="pan_card" name="pan_card" />
+          <input type="file" accept="image/*" id="pan_card" name="images" />
         </div>
       </div>
       <div>

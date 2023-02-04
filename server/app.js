@@ -1,5 +1,7 @@
 const express = require("express");
 
+const multer = require("multer");
+
 const bodyParser = require("body-parser");
 
 const mongodb = require('mongodb');
@@ -9,6 +11,17 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 
 const app = express();
+
+const storage = multer.diskStorage({
+  destination: (req,file,cb) => {
+    cb(null,'./uploads');
+  },
+  filename: (req,file,cb) => {
+    cb(null, file.fieldname+'-'+Date.now()+".png");
+  },
+});
+
+const upload = multer({storage});
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -80,9 +93,12 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     });
   });
 
-  app.post('/userDetails', (req, res) => {
+  app.post('/userDetails', upload.array("images", 10), (req, res) => {
     const address = req.body.address;
-    console.log(req.body.address);
+    const files = req.files;
+    // console.log(req.body.address);
+    console.log(files);
+
     res.render('companyDetails');
   });
 
@@ -130,7 +146,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           password: hash,
           email: email,
           position: position,
-      }, 
+      },
       (err, result) => {
           if (err) throw err;
           console.log('Data inserted');
