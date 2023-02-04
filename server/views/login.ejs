@@ -8,16 +8,20 @@
     <title>Document</title>
 </head>
 <style>
+  form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .main{
 padding: 50px;
 text-align: center;
 background-color: #F5CEF6;
 display: flex;
 justify-content: center;
- 
+align-items: center;
 height: 100vh;
-
-  }
+}
 
   .login {
   background-color: #810FB7;
@@ -28,9 +32,10 @@ height: 100vh;
   cursor: pointer;
   font-family: monospace;
   font-weight: 500;
+  margin-top: 10px;
 }
 .form-group{
-  width: 50%;
+  width: 120%;
   padding: 20px;
   margin: 1px 5px 10px 0;
   border-radius:14px;
@@ -52,8 +57,78 @@ input[type=text]:focus, input[type=email]{
   background-color: #F5CEF6;
   border:none
 }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+nav {
+    background-color: #810fb7;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  li {
+    display: inline-block;
+    float: right;
+  }
+
+ 
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+ 
+  li a i {
+    padding-right: 5px;
+  }
+  
+  
+  li a:hover {
+    background-color: #2c043b;
+  }
+
 </style>
 <body>
+  <nav>
+    <ul>
+      <li
+        style="
+          float: left;
+          color: whitesmoke;
+          margin-left: 2rem;
+          margin-top: 1rem;
+        "
+      >
+        <div style="display: flex;justify-content: space-around;">
+          <h2>EasyBuzz</h2>
+          <img
+            src="./mainlogo.png"
+            alt="logo"
+            style="width: 50px; height: 50px; margin-left: 0.5rem;margin-top: -0.8rem;"
+           
+          />
+        </div>
+      </li>
+
+      <li >
+        <a style="border-radius:10px" href="#user"><i class="fa fa-user"></i> User</a>
+      </li>
+      <li ><a style="border-radius:10px" href="#home">Logout</a></li>
+    </ul>
+  </nav>
 <div class="main">
     <form action="/login" method="post">
         <div class="form-group">
@@ -66,14 +141,15 @@ input[type=text]:focus, input[type=email]{
         </div>
         <br>
         <a class="forgot-password" href="/forgot-password">Forgot Password?</a>
-        <br>
+        <br*3>
         <button class="login"type="login" class="btn btn-primary">Login</button>
       </form>
-      <form action="/signup" method="post">
+      <br>
+      <div action="/signup" method="post">
         <p>Don't have an account? <button class="signup"type="signup" class="btn btn-primary">Signup</button></p>
-      </form>
+      
       <form action="/adminLogin" method="post">
         <button class="signup"type="signup" class="btn btn-primary">Admin Login</button>
-      </form>
+      </div>
 </body>
 </html>
