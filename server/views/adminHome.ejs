@@ -52,7 +52,26 @@ input[type=text]:focus, input[type=email]:focus ,input[type=tel]:focus,input[typ
 </style>
 <body>
 <div class = "main">
-    
+  <h1>Data from MongoDB</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const item of data) { %>
+        <tr>
+          <td><%= item.firstName %></td>
+          <td><%= item.lastName %></td>
+          <td><%= item.address %></td>
+          <td><%= item.companyAddress %></td>
+          <td><%= item.companyType %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
 </div>
 </body>
 </html>

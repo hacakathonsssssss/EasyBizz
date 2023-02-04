@@ -148,7 +148,14 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           }
           if(result){
             console.log("match");
-            res.render('adminHome');
+            db.collection('users').find({}).toArray((err, data) => {
+              if (err) {
+                console.error(err);
+                return;
+              } 
+              console.log(data);
+              res.render('adminHome', { data });
+            });
           }else{
             console.log("dont match");
             res.render('failure');
