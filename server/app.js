@@ -26,7 +26,7 @@ var storage = multer.diskStorage({ // configure user storage
 
 var upload = multer({storage});
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(express.static(path.join(__dirname,'public')));
 
@@ -55,6 +55,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           password: hash,
           email: email,
           stage: 0,
+          verified: false,
       }, 
       (err, result) => {
           if (err) throw err;
@@ -96,6 +97,10 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
         });
       });
     });
+  });
+
+  app.post('/tryAgain', (req, res) => { // SIGNUP BUTTON
+    res.render('login');
   });
 
   app.post('/userDetails', upload.array("images", 10), (req, res) => {
@@ -168,7 +173,6 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
                 console.error(err);
                 return;
               } 
-              console.log(data);
               res.render('adminHome', { data });
             });
           }else{
@@ -205,6 +209,21 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
         });
       res.render('adminLogin');
     });
+  });
+
+  app.post('/verify', (req, res) => {
+    const collection = db.collection("users");
+    const email = req.body.button;
+    console.log(req.body);
+    // collection.updateOne(
+    //   { email: user_email }, 
+    //   { $set: 
+    //     { 
+          
+    //     } 
+    //   }, function(err, res) {
+    //   // console.log(req.body.companyAddress);
+    // });
   });
 
   app.listen(3000, () => console.log('Server started on port 3000'));

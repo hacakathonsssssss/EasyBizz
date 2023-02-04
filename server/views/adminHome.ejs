@@ -19,12 +19,9 @@
   font-family: "Roboto", sans-serif;
   }
   
-
-
-// Styles for table
 .table{
-  width: 100%,
-  border-spacing: 0,
+  width: 100%;
+  border-spacing: 0;
   text-align: left;
 }
 .th{
@@ -108,23 +105,28 @@
             <th>Address</th>
             <th>Company Address</th>
             <th>Company Type</th>
+            <th>Worker Count</th>
+            <th>Objective</th>
             <th>Photo URL</th>
             <th>Status</th>
         </tr>
     </thead>
     <tbody>
+      <form action="/verify" method="post">
       <% for (const item of data) { %>
         <tr>
           <td><%= item.firstName %></td>
           <td><%= item.lastName %></td>
           <td><%= item.address %></td>
-          <td><%= item.companyAddress %></td>
+          <td><%= item.companyAdress %></td>
           <td><%= item.companyType %></td>
+          <td><%= item.staffCount %></td>
+          <td><%= item.objective %></td>
           <td><%= item.photoURL %></td>
-          <td data-label=""><a href="#" class="btn btn__pledged">Pledged</a></td>
+          <td type="submit" name="button <%=item.email%>" value="<%= item.email %>"><button>Pledged</button></td>
         </tr>
       <% } %>
-        
+      </form> 
     </tbody>
 </table>
   
