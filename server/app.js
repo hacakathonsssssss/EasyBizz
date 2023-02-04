@@ -67,8 +67,8 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           if(result){
             console.log("match");
             collection.findOne({ email: email },{ projection: { firstName: 1 }} ,function(err,result){
-              res.render('home',{ // RENDERS HOME PAGE
-                Name: result.firstName
+              res.render('userDetails',{ // RENDERS USER DETAILS
+                Name: result.firstName,
               });
             })
           }else{
@@ -81,7 +81,9 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
   });
 
   app.get('/userDetails', (req, res) => {
-    res.render('userDetails');
+    // const address = req.body.address;
+    // console.log(req.body);
+    res.render('companyDetails');
   });
 
   app.post('/adminLogin', (req, res) => {
