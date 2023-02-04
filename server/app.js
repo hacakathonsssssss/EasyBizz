@@ -8,6 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+import { register } from "./controllers/auth.js";
 
 // CONFIGURATIONS
 
@@ -35,6 +36,23 @@ const storage = multer.diskStorage({
     },
 });
 const upload = multer({storage});
+
+// ROUTES 
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  });
+  
+app.post("/submit",(req,res) => {
+    const formData = req.body;
+    console.log(formData);
+})
+
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+  });
+  
+app.post("/auth.register",upload.single("picture"),register);
 
 //MONGOOSE SETUP
 const PORT = process.env.PORT || 6001;
