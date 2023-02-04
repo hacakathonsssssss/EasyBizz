@@ -17,6 +17,9 @@ function App() {
         >
           Learn React
         </a>
+        <form action="../../post" method='post' className="form">
+          <button type="submit">connected?</button>
+        </form>
       </header>
     </div>
   );
