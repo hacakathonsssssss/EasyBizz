@@ -12,16 +12,19 @@ const path = require('path');
 
 const app = express();
 
-const storage = multer.diskStorage({
+var user_email = '';
+var user_firstname = '';
+
+var storage = multer.diskStorage({ // configure user storage
   destination: (req,file,cb) => {
     cb(null,'./uploads');
   },
   filename: (req,file,cb) => {
-    cb(null, file.fieldname+'-'+Date.now()+".png");
+    cb(null, user_firstname + ".png");
   },
 });
 
-const upload = multer({storage});
+var upload = multer({storage});
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -31,8 +34,6 @@ app.set("view engine","ejs");
 
 const MongoClient = mongodb.MongoClient;
 const url = "mongodb+srv://Beetroot16:Vishrut1@cluster0.7cgrkk2.mongodb.net/?retryWrites=true&w=majority";
-
-var user_email = '';
 
 MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
   if (err) throw err;
@@ -83,6 +84,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
             console.log("match");
             user_email = req.body.email;
             collection.findOne({ email: email },{ projection: { firstName: 1 }} ,function(err,result){
+              user_firstname = result.firstName;
               res.render('userDetails',{ // RENDERS USER DETAILS
                 Name: result.firstName,
               });
@@ -100,6 +102,19 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     const address = req.body.address;
     // const files = req.files;
     const collection = db.collection("users");
+
+    var storage = multer.diskStorage({ // configure user storage
+      destination: (req,file,cb) => {
+        cb(null,'./uploads');
+      },
+      filename: (req,file,cb) => {
+        const index = req.body.fileIndex;
+        const fixedSuffix = ['Address_proof' , 'Adhaar', 'PAN' , 'License' , 'Passport'];
+        cb(null, `image-${fixedSuffixes[index]}-${user_firstname}.png`);
+      },
+    });
+    var upload = multer({storage});
+
     collection.updateOne({ email: user_email }, { $set: { address: req.body.address } }, function(err, res) {
       console.log(user_email);
       console.log("Document updated");
