@@ -1,68 +1,58 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
-import multer from "multer";
-import helmet from "helmet";
-import morgan from "morgan";
-import path from "path";
-import { fileURLToPath } from "url";
-import { register } from "./controllers/auth.js";
+const express = require("express");
 
-// CONFIGURATIONS
+const bodyParser = require("body-parser");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config();
+const mongodb = require('mongodb');
+
+const bcrypt = require('bcrypt');
 
 const app = express();
-app.use(express.json());
-app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}));
-app.use(morgan("common"));
-app.use(bodyParser.json({limit: "30mb",extended: true}))
-app.use(bodyParser.urlencoded({limit: "30mb",extended: true}))
-app.use(cors())
-app.use("/assets", express.static(path.join(__dirname,'public/assets')));
 
-// FILE STORAGE
-const storage = multer.diskStorage({
-    destination:function(req,res,cb){
-        cb(null,"public/assets");
-    },
-    filename:function(req,res,cb){
-        cb(null,file.originalname);
-    },
-});
-const upload = multer({storage});
+app.use(bodyParser.urlencoded({extended: true}));
 
-// ROUTES 
+app.set("view engine","ejs");
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+const MongoClient = mongodb.MongoClient;
+const url = "mongodb+srv://Beetroot16:Vishrut1@cluster0.7cgrkk2.mongodb.net/?retryWrites=true&w=majority";
+
+MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+  if (err) throw err;
+  const db = client.db('EasyBizz');
+
+  app.get('/', (req, res) => {
+    res.render('signup');
   });
-  
-app.post("/submit",(req,res) => {
-    const formData = req.body;
-    console.log(formData);
-})
+    
+  app.post('/submit', (req, res) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const password = req.body.password;
+    bcrypt.hash(password, 10, (err, hash) => {
+      if (err) throw err;
+      db.collection('users').insertOne({
+          firstName: firstName ,
+          lastName: lastName,
+          password: hash,
+          email: email,
+      }, 
+      (err, result) => {
+          if (err) throw err;
+          console.log('Data inserted');
+          // client.close();
+        });
+      res.render('login');
+    });
 
-app.listen(3000, () => {
-    console.log('Server running on http://localhost:3000');
+    app.post('/login', (req, res) => {
+      const email = req.body.email;
+      const password = req.body.password;
+      db.collection('users').find({email:email}).toArray((err,result) => {
+        if (err) throw err;
+        console.log(result);
+      });
+      res.render('success');
+    });
   });
-  
-app.post("/auth.register",upload.single("picture"),register);
-
-//MONGOOSE SETUP
-const PORT = process.env.PORT || 6001;
-mongoose.set('strictQuery', false);
-mongoose
-.connect(process.env.MONGO_URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => {
-    app.listen(PORT,() => console.log(`Server Port: ${PORT}`));
-})
-.catch((error) => console.log(error.message));
+    app.listen(3000, () => console.log('Server started on port 3000'));
+  });
