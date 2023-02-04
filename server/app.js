@@ -6,9 +6,13 @@ const mongodb = require('mongodb');
 
 const bcrypt = require('bcrypt');
 
+const path = require('path');
+
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(express.static(path.join(__dirname,'public')));
 
 app.set("view engine","ejs");
 
@@ -23,7 +27,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     res.render('login');
   });
     
-  app.post('/submit', (req, res) => {
+  app.post('/submit', (req, res) => { // FOR USER SIGNUP
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
@@ -34,6 +38,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           lastName: lastName,
           password: hash,
           email: email,
+          stage: 0,
       }, 
       (err, result) => {
           if (err) throw err;
@@ -44,11 +49,11 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     });
   });
 
-  app.post('/signup', (req, res) => {
+  app.post('/signup', (req, res) => { // SIGNUP BUTTON
     res.render('signup');
   });
 
-  app.post('/login', (req, res) => {
+  app.post('/login', (req, res) => { // USER LOGIN BUTTON
     const email = req.body.email;
     const password = req.body.password;
     bcrypt.hash(password, 10, (err, hash) => {
@@ -61,7 +66,11 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           }
           if(result){
             console.log("match");
-            res.render('success');
+            collection.findOne({ email: email },{ projection: { firstName: 1 }} ,function(err,result){
+              res.render('home',{ // RENDERS HOME PAGE
+                Name: result.firstName
+              });
+            })
           }else{
             console.log("dont match");
             res.render('failure');
@@ -69,6 +78,10 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
         });
       });
     });
+  });
+
+  app.get('/userDetails', (req, res) => {
+    res.render('userDetails');
   });
 
   app.post('/adminLogin', (req, res) => {

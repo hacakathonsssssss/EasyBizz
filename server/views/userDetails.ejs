@@ -134,7 +134,7 @@ form {
         <li ><a style="border-radius:10px" href="#home">Logout</a></li>
       </ul>
     </nav>
-    <form>
+    <form action = "/company_details",method ="post">
       <h2 style="text-align: center;">Personal Information</h2>
       <div>
         <label for="address">Address:</label>
@@ -142,6 +142,12 @@ form {
       </div>
       <div>
         <label for="address_proof">Address Proof:</label>
+        <input
+            type="file"
+            accept="image/*"
+            id="aadhar_card"
+            name="aadhar_card"
+          />
         <div>
           <label for="aadhar_card">Aadhar Card:</label>
           <input
