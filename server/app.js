@@ -80,9 +80,9 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     });
   });
 
-  app.get('/userDetails', (req, res) => {
-    // const address = req.body.address;
-    // console.log(req.body);
+  app.post('/userDetails', (req, res) => {
+    const address = req.body.address;
+    console.log(req.body.address);
     res.render('companyDetails');
   });
 
