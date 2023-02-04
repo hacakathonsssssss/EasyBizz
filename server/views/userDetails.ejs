@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./userDetails.css" />
+  </head>
+  <style>
+    
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+nav {
+    background-color: #810fb7;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  li {
+    display: inline-block;
+    float: right;
+  }
+
+ 
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+ 
+  li a i {
+    padding-right: 5px;
+  }
+  
+  
+  li a:hover {
+    background-color: #2c043b;
+  }
+
+body{
+    background-color: #F5CEF6;
+    font-family: 'Roboto', sans-serif;
+}
+form {
+    width: 60%;
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 63px;
+    background: linear-gradient(145deg, #e091e0, #c225c2);
+    box-shadow:  31px 31px 94px #b396b4,
+                 -31px -31px 94px #ffffff;
+    /* background-color: white;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
+    border-radius: 10px; */
+  }
+  
+  label {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 20px;
+    display: block;
+  }
+  
+  input[type="text"],
+  input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    font-size: 1.2em;
+  }
+  
+  input[type="submit"] {
+    margin-top: 40px;
+    padding: 20px 40px;
+    background-color:#810fb7;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: blue;
+    transform: translateY(-2px);
+    box-shadow: 0px 3px 20px rgba(0,0,0,0.2);
+  }
+  
+  </style>
+  <body>
+    <nav>
+      <ul>
+        <li
+          style="
+            float: left;
+            color: whitesmoke;
+            margin-left: 2rem;
+            margin-top: 1rem;
+          "
+        >
+          <div style="display: flex;justify-content: space-around;">
+            <h2>EasyBuzz</h2>
+            <img
+              src="./mainlogo.png"
+              alt="logo"
+              style="width: 50px; height: 50px; margin-left: 0.5rem;margin-top: -0.8rem;"
+             
+            />
+          </div>
+        </li>
+
+        <li >
+          <a style="border-radius:10px" href="#user"><i class="fa fa-user"></i> User</a>
+        </li>
+        <li ><a style="border-radius:10px" href="#home">Logout</a></li>
+      </ul>
+    </nav>
+    <form>
+      <h2 style="text-align: center;">Personal Information</h2>
+      <div>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" />
+      </div>
+      <div>
+        <label for="address_proof">Address Proof:</label>
+        <div>
+          <label for="aadhar_card">Aadhar Card:</label>
+          <input
+            type="file"
+            accept="image/*"
+            id="aadhar_card"
+            name="aadhar_card"
+          />
+        </div>
+        <div>
+          <label for="pan_card">PAN Card:</label>
+          <input type="file" accept="image/*" id="pan_card" name="pan_card" />
+        </div>
+      </div>
+      <div>
+        <label for="driver_license">Driver's License:</label>
+        <input
+          type="file"
+          accept="image/*"
+          id="driver_license"
+          name="driver_license"
+        />
+      </div>
+      <div>
+        <label for="passport">Passport:</label>
+        <input type="file" accept="image/*" id="passport" name="passport" />
+      </div>
+      <input type="submit" value="Submit" onclick="return validateImage()" />
+    </form>
+
+    <script src=""></script>
+  </body>
+</html>
