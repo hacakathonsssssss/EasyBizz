@@ -1,5 +1,6 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -17,9 +18,6 @@ function App() {
         >
           Learn React
         </a>
-        <form action="../../post" method='post' className="form">
-          <button type="submit">connected?</button>
-        </form>
       </header>
     </div>
   );
