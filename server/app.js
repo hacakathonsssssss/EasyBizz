@@ -44,27 +44,8 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     });
   });
 
-  app.post('/login', (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    bcrypt.hash(password, 10, (err, hash) => {
-      const collection = db.collection("users");
-      collection.findOne({ email: email }, { projection: { password: 1 }} ,function(err, result) {
-        bcrypt.compare(password,result.password,function(err,result){
-          if(err){
-            console.log(err);
-            return;
-          }
-          if(result){
-            console.log("match");
-            res.render('success');
-          }else{
-            console.log("dont match");
-            res.render('failure');
-          }
-        });
-      });
-    });
+  app.post('/signup', (req, res) => {
+    res.render('signup');
   });
 
   app.post('/login', (req, res) => {
@@ -89,6 +70,10 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
       });
     });
   });
-  
+
+  app.post('/adminLogin', (req, res) => {
+    res.render('adminLogin');
+  });
+
   app.listen(3000, () => console.log('Server started on port 3000'));
 });
