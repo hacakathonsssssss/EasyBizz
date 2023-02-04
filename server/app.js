@@ -20,7 +20,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
   const db = client.db('EasyBizz');
 
   app.get('/', (req, res) => {
-    res.render('signup');
+    res.render('login');
   });
     
   app.post('/submit', (req, res) => {
