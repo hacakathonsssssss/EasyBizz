@@ -51,7 +51,7 @@ input[type=text]:focus, input[type=email]{
 </style>
 <body>
 <div class="main">
-    <form action="/admin_login" method="post">
+    <form action="/admin_login_submit" method="post">
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" id="email" name="email">
@@ -65,7 +65,9 @@ input[type=text]:focus, input[type=email]{
         <br>
 
         <button class="login"type="login" class="btn btn-primary">Login</button>
-        <p>Don't have an account? <a href="./signup.ejs">Sign up</a></p>
+      </form>
+      <form action="/adminSignup" method="post">
+        <button class="adminSignup"type="signup" class="btn btn-primary">Admin Signup</button>
       </form>
 </body>
 </html>

@@ -75,5 +75,55 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     res.render('adminLogin');
   });
 
+  app.post('/admin_login_submit', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    bcrypt.hash(password, 10, (err, hash) => {
+      const collection = db.collection("admins");
+      collection.findOne({ email: email }, { projection: { password: 1 }} ,function(err, result) {
+        bcrypt.compare(password,result.password,function(err,result){
+          if(err){
+            console.log(err);
+            return;
+          }
+          if(result){
+            console.log("match");
+            res.render('success');
+          }else{
+            console.log("dont match");
+            res.render('failure');
+          }
+        });
+      });
+    });
+  });
+
+  app.post('/adminSignup', (req, res) => {
+    res.render('adminSignup');
+  });
+
+  app.post('/admin_submit', (req, res) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const position = req.body.position;
+    const password = req.body.password;
+    bcrypt.hash(password, 10, (err, hash) => {
+      db.collection('admins').insertOne({
+          firstName: firstName ,
+          lastName: lastName,
+          password: hash,
+          email: email,
+          position: position,
+      }, 
+      (err, result) => {
+          if (err) throw err;
+          console.log('Data inserted');
+          // client.close();
+        });
+      res.render('adminLogin');
+    });
+  });
+
   app.listen(3000, () => console.log('Server started on port 3000'));
 });
