@@ -32,6 +32,8 @@ app.set("view engine","ejs");
 const MongoClient = mongodb.MongoClient;
 const url = "mongodb+srv://Beetroot16:Vishrut1@cluster0.7cgrkk2.mongodb.net/?retryWrites=true&w=majority";
 
+var user_email = '';
+
 MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
   if (err) throw err;
   const db = client.db('EasyBizz');
@@ -79,6 +81,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           }
           if(result){
             console.log("match");
+            user_email = req.body.email;
             collection.findOne({ email: email },{ projection: { firstName: 1 }} ,function(err,result){
               res.render('userDetails',{ // RENDERS USER DETAILS
                 Name: result.firstName,
@@ -95,9 +98,35 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
 
   app.post('/userDetails', upload.array("images", 10), (req, res) => {
     const address = req.body.address;
-    const files = req.files;
-    // console.log(req.body.address);
-    console.log(files);
+    // const files = req.files;
+    const collection = db.collection("users");
+    collection.updateOne({ email: user_email }, { $set: { address: req.body.address } }, function(err, res) {
+      console.log(user_email);
+      console.log("Document updated");
+    });
+
+    res.render('companyDetails');
+  });
+
+  app.post('/companyDetails', upload.array("images", 10), (req, res) => {
+    const company_type = req.body.companyType;
+    const company_address = req.body.companyAddress;
+    const staff_count = req.body.staffCount;
+    const objective = req.body.objective;
+    // const files = req.files;
+    const collection = db.collection("users");
+    collection.updateOne(
+      { email: user_email }, 
+      { $set: 
+        { 
+          companyType: req.body.companyType, 
+          companyAdress: req.body.companyAddress, 
+          staffCount: req.body.staffCount,
+          objective: req.body.objective,
+        } 
+      }, function(err, res) {
+      // console.log(req.body.companyAddress);
+    });
 
     res.render('companyDetails');
   });
@@ -119,7 +148,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           }
           if(result){
             console.log("match");
-            res.render('success');
+            res.render('adminHome');
           }else{
             console.log("dont match");
             res.render('failure');
@@ -136,7 +165,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
   app.post('/admin_submit', (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const email = req.body.email;
+    const username = req.body.username;
     const position = req.body.position;
     const password = req.body.password;
     bcrypt.hash(password, 10, (err, hash) => {
@@ -144,7 +173,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
           firstName: firstName ,
           lastName: lastName,
           password: hash,
-          email: email,
+          username: username,
           position: position,
       },
       (err, result) => {

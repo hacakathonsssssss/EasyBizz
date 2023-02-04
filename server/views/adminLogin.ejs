@@ -213,7 +213,7 @@ body{
       <br>
   <h1 style="text-align: center;">Admin Login</h1>
   <br>
-      <form class="middle" action="/" method="post">
+      <form class="middle" action="/admin_login_submit" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username"><br><br>
         <label for="password">Password:</label>
@@ -223,8 +223,8 @@ body{
       <br>
       <div class="bottom">
       <button><a class="forgot"style=" text-decoration: none;border: none;" href="/forgot-password">Forgot Password</a></button>
-     
-      <button><a class="signup" style=" text-decoration: none  ;border: none;" href="/sign-up">Sign Up</a></button>
+      
+      <form action="/adminSignup" method="post"><button><a class="signup" style=" text-decoration: none  ;border: none;">Sign Up</a></button></form>
   </div>
          
   </div>
