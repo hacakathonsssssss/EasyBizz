@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Capture and Store Image</title>
+  </head>
+  <body>
+    <video autoplay></video>
+    <button>Capture</button>
+
+    <script>
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          const videoElement = document.querySelector("video");
+          videoElement.srcObject = stream;
+
+          videoElement.onloadedmetadata = () => {
+            videoElement.play();
+
+            const canvas = document.createElement("canvas");
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            const context = canvas.getContext("2d");
+
+            document.querySelector("button").addEventListener("click", () => {
+              context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+              const imageDataURL = canvas.toDataURL("image/jpeg");
+              const imageElement = document.createElement("img");
+              imageElement.src = imageDataURL;
+              document.body.appendChild(imageElement);
+              
+              const link = document.createElement("a");
+              link.href = imageDataURL;
+              link.download = `capturedImage-${Date.now()}.jpg`;
+              link.style.display = "none";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              localStorage.setItem("capturedImage", imageDataURL);
+              
+              stream.getTracks().forEach(track => track.stop());
+            });
+          };
+        })
+        .catch(error => {
+          console.error("Error accessing camera", error);
+        });
+
+    </script>
+    <a href="displayface.html">Go to Second Page</a>
+  </body>
+</html>
