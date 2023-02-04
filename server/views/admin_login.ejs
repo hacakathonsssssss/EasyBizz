@@ -48,14 +48,10 @@ input[type=text]:focus, input[type=email]{
 .forgot-password{
     text-align: right;
 }
-.signup{
-  background-color: #F5CEF6;
-  border:none
-}
 </style>
 <body>
 <div class="main">
-    <form action="/login" method="post">
+    <form action="/admin_login" method="post">
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" id="email" name="email">
@@ -69,7 +65,7 @@ input[type=text]:focus, input[type=email]{
         <br>
 
         <button class="login"type="login" class="btn btn-primary">Login</button>
-        <p>Don't have an account? <button class="signup"type="signup" class="btn btn-primary">Signup</button></p>
+        <p>Don't have an account? <a href="./signup.ejs">Sign up</a></p>
       </form>
 </body>
 </html>
