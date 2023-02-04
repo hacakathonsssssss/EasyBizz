@@ -24,7 +24,7 @@
     box-sizing: border-box;
 }
 nav {
-    background-color: rgb(3, 44, 57);
+    background-color: #810fb7;
     padding: 10px;
     text-align: center;
   }
@@ -60,11 +60,14 @@ nav {
 
 .card {
     z-index: 0;
-    background-color: #ECEFF1;
+    border-radius: 86px;
+background: linear-gradient(145deg, #d9a7da, #ffc7ff);
+box-shadow:  50px 50px 24px #604a61,
+             -50px -50px 24px #ffffff;
     padding-bottom: 20px;
     margin-top: 90px;
     margin-bottom: 90px;
-    border-radius: 10px;
+    
 }
 
 .top {
@@ -151,7 +154,7 @@ nav {
 
 /*Color number of the step and the connector before it*/
 #progressbar li.active:before, #progressbar li.active:after {
-    background: #651FFF;
+    background: #c225c2;
 }
 
 #progressbar li.active:before {
@@ -185,11 +188,11 @@ nav {
       </ul>
     </nav>
 
-    <div class="container px-1 px-md-4 py-5 mx-auto">
+    <div class="container ">
         <div class="card">
             <div class="row d-flex justify-content-between px-3 top">
                 <div class="d-flex">
-                    <h5>ORDER <span class="text-primary font-weight-bold"><%= Name %></span></h5>
+                    <h5 >ORDER <span class="text-primary font-weight-bold"><%= Name %></span></h5>
                 </div>
                 <div class="d-flex flex-column text-sm-right">
                     <!-- <p class="mb-0">Expected By <span>01/12/19</span></p>
