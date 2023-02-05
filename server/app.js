@@ -164,7 +164,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
       // console.log(req.body.companyAddress);
     });
 
-    res.render('companyDetails');
+    res.render('stage3');
   });
 
   app.post('/adminLogin', (req, res) => {
