@@ -106,7 +106,7 @@ form {
   
   </style>
   <body>
-    <nav>
+    <!-- <nav>
       <ul>
         <li
           style="
@@ -132,7 +132,12 @@ form {
         </li>
         <li ><a style="border-radius:10px" href="#home">Logout</a></li>
       </ul>
-    </nav>
+    </nav> -->
+
+    <%- include('./home.ejs') %>
+
+
+
     <form form action="/userDetails" method="post" enctype="multipart/form-data">
       <h2 style="text-align: center;">Personal Information</h2>
       <div>
@@ -177,11 +182,55 @@ form {
       <div>
         <label for="passport">Passport:</label>
         <input type="hidden" name="fileIndex" value="4">
-        <input type="file" accept="image/*" id="passport" name="passport" />
+        <input type="file" accept="image/*" id="passport" name="images" />
       </div>
-      <input type="submit" value="Submit" onclick="return validateImage()" />
+      <div>
+        <label for="PhotoClick">Photo identification</label>
+        <br><br>
+        <video autoplay></video>
+        
+      </div>
+      <input id="submit" type="submit" value="Submit"  />
     </form>
 
-    <script src=""></script>
+    <script>
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          const videoElement = document.querySelector("video");
+          videoElement.srcObject = stream;
+
+          videoElement.onloadedmetadata = () => {
+            videoElement.play();
+
+            const canvas = document.createElement("canvas");
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            const context = canvas.getContext("2d");
+
+            document.getElementById("submit").addEventListener("click", () => {
+              context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+              const imageDataURL = canvas.toDataURL("image/jpeg");
+              const imageElement = document.createElement("img");
+              imageElement.src = imageDataURL;
+              document.body.appendChild(imageElement);
+              
+              const link = document.createElement("a");
+              link.href = imageDataURL;
+              link.download = `capturedImage-${Date.now()}.jpg`;
+              link.style.display = "none";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              localStorage.setItem("capturedImage", imageDataURL);
+              
+              stream.getTracks().forEach(track => track.stop());
+            });
+          };
+        })
+        .catch(error => {
+          console.error("Error accessing camera", error);
+        });
+
+    </script>
   </body>
 </html>

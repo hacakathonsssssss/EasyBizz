@@ -20,10 +20,20 @@ var storage = multer.diskStorage({ // configure user storage
     cb(null,'./uploads');
   },
   filename: (req,file,cb) => {
-    cb(null, user_firstname + ".png");
+    cb(null, user_firstname + Date.now()+".png");
   },
 });
 
+var adminstorage = multer.diskStorage({ // configure user storage
+  destination: (req,file,cb) => {
+    cb(null,'./uploads/admin');
+  },
+  filename: (req,file,cb) => {
+    cb(null, user_firstname + Date.now()+".png");
+  },
+});
+
+var adminupload = multer({adminstorage});
 var upload = multer({storage});
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -76,25 +86,31 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     bcrypt.hash(password, 10, (err, hash) => {
       const collection = db.collection("users");
       collection.findOne({ email: email }, { projection: { password: 1 }} ,function(err, result) {
-        bcrypt.compare(password,result.password,function(err,result){
-          if(err){
-            console.log(err);
-            return;
-          }
-          if(result){
-            console.log("match");
-            user_email = req.body.email;
-            collection.findOne({ email: email },{ projection: { firstName: 1 }} ,function(err,result){
-              user_firstname = result.firstName;
-              res.render('userDetails',{ // RENDERS USER DETAILS
-                Name: result.firstName,
-              });
-            })
-          }else{
-            console.log("dont match");
-            res.render('failure');
-          }
-        });
+        try{
+          bcrypt.compare(password,result.password,function(err,result){
+            if(err){
+              console.log(err);
+              return;
+            }
+            if(result){
+              console.log("match");
+              user_email = req.body.email;
+              collection.findOne({ email: email },{ projection: { firstName: 1 }} ,function(err,result){
+                user_firstname = result.firstName;
+                res.render('userDetails',{ // RENDERS USER DETAILS
+                  Name: result.firstName,
+                });
+              })
+            }else{
+              console.log("dont match");
+              res.render('failure');
+            }
+          });
+        }catch(err){
+          console.log(err);
+          res.render('failure');
+        }
+        
       });
     });
   });
@@ -128,7 +144,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     res.render('companyDetails');
   });
 
-  app.post('/companyDetails', upload.array("images", 10), (req, res) => {
+  app.post('/companyDetails', adminupload.array("images", 10), (req, res) => {
     const company_type = req.body.companyType;
     const company_address = req.body.companyAddress;
     const staff_count = req.body.staffCount;
