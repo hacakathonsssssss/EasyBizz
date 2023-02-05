@@ -322,37 +322,50 @@ box-shadow:  50px 50px 24px #604a61,
         <h2>Company Documents</h2>
         <div>
           <label for="companyType">Type of Company:</label>
-          <input type="text" id="companyType" name="companyType" required> 
+          <input type="text" id="companyType" name="companyType" required onkeyup="enableSubmit()"> 
         </div>
         <div>
           <label for="companyAddress">Address of Company:</label>
-          <input type="text" id="companyAddress" name="companyAddress" required>
+          <input type="text" id="companyAddress" name="companyAddress" required onkeyup="enableSubmit()">
         </div>
         <div>
           <label for="addressProof">Upload Address Proof:</label>
-          <input type="file" id="addressProof" name="addressProof" required>
+          <input type="file" id="addressProof" name="addressProof" required onkeyup="enableSubmit()">
         </div>
         <div>
           <label for="staffCount">Count of Staff:</label>
-          <input type="number" id="staffCount" name="staffCount" required>
+          <input type="number" id="staffCount" name="staffCount" required onkeyup="enableSubmit()">
         </div>
         <div>
           <label for="objective">Objective:</label>
-          <textarea id="objective" name="objective" required></textarea>
+          <textarea id="objective" name="objective" required onkeyup="enableSubmit()"></textarea>
         </div>
         <div>
           <label for="agreement">Upload Agreement:</label>
-          <input type="file" id="agreement" name="agreement" required>
+          <input type="file" id="agreement" name="agreement" required onkeyup="enableSubmit()">
         </div>
         <div>
           <label for="moa">Upload MOA:</label>
-          <input type="file" id="moa" name="moa" required>
+          <input type="file" id="moa" name="moa" required onkeyup="enableSubmit()">
         </div>
         
           <input type="submit" value="Submit" onclick="return validateImage()">
        
       </form>
-    
+    <script>
+      let inputs = document.getElementsByClassName('required'); // Enter your class name for a required field, this should also be reflected within your form fields.
+        let btn = document.querySelector('input[type="submit"]');
+        let isValid = true;
+        for (var i = 0; i < inputs.length; i++) {
+          let changedInput = inputs[i];
+          if (changedInput.value.trim() === "" || changedInput.value === null) {
+            isValid = false;
+            break;
+          }
+        }
+        btn.disabled = !isValid;
+      }
+    </script>
   
 </body>
 </html>
