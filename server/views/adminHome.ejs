@@ -112,20 +112,20 @@
         </tr>
     </thead>
     <tbody>
-      <form action="/verify" method="post">
-      <% for (const item of data) { %>
-        <tr>
-          <td><%= item.firstName %></td>
-          <td><%= item.lastName %></td>
-          <td><%= item.address %></td>
-          <td><%= item.companyAdress %></td>
-          <td><%= item.companyType %></td>
-          <td><%= item.staffCount %></td>
-          <td><%= item.objective %></td>
-          <td><%= item.photoURL %></td>
-          <td type="submit" name="button <%=item.email%>" value="<%= item.email %>"><button>Pledged</button></td>
-        </tr>
-      <% } %>
+      <form action="/verify" method="get">
+        <% data.forEach(function(item,index) { %>
+          <tr>
+            <td><%= item.firstName %></td>
+            <td><%= item.lastName %></td>
+            <td><%= item.address %></td>
+            <td><%= item.companyAdress %></td>
+            <td><%= item.companyType %></td>
+            <td><%= item.staffCount %></td>
+            <td><%= item.objective %></td>
+            <td><%= item.photoURL %></td>
+            <td type="submit" name="button<%=index%>" value="<%=index%>"><button>Pledged</button></td>
+          </tr>
+        <% }); %>
       </form> 
     </tbody>
 </table>

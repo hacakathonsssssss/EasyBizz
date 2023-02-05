@@ -211,19 +211,19 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     });
   });
 
-  app.post('/verify', (req, res) => {
+  app.post('/verify', upload.array("images", 10), (req, res) => {
     const collection = db.collection("users");
-    const email = req.body.button;
-    console.log(req.body);
-    // collection.updateOne(
-    //   { email: user_email }, 
-    //   { $set: 
-    //     { 
+    const email = req.body.button0;
+    console.log(email);
+    collection.updateOne(
+      { email: user_email }, 
+      { $set: 
+        { 
           
-    //     } 
-    //   }, function(err, res) {
-    //   // console.log(req.body.companyAddress);
-    // });
+        } 
+      }, function(err, res) {
+      // console.log(req.body.companyAddress);
+    });
   });
 
   app.listen(3000, () => console.log('Server started on port 3000'));
